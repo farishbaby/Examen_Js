@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen JS</title>
+    <link rel="stylesheet" href="Examen.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+     integrity="sha256-46r060N2LrChLLb5zowXQ72/iKNNiw/lAmygmHExk/o=" crossorigin="anonymous_">
+     <script src="https://kit.fontawesome.com/8f5ac6de88.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <section>
+    <h1>My Todo</h1>
+    <div id="todo-app">
+      <form id="add-todo">
+        <input type="text" id="todo-input" placeholder="Input task name then tap Enter to add" >
+      </form>
+      <ul id="todo-list"></ul>
+    </div>
+  </section>
+    <script>
+      const form = document.querySelector('#add-todo');
+      const input = document.querySelector('#todo-input');
+      const todoList = document.querySelector('#todo-list');
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        addTodo(input.value);
+        input.value = '';
+      });
+
+      function addTodo(text) {
+        const li = document.createElement('li');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', toggleTodo);
+
+        const span = document.createElement('span');
+        span.textContent = text;
+
+        const editBtn = document.createElement('Button');
+        editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>'
+        editBtn.classList.add('edit-btn');
+        editBtn.addEventListener('click', editeTodo);
+
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>'
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.addEventListener('click', deleteTodo);
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(editBtn);
+        li.appendChild(deleteBtn);
+        todoList.appendChild(li);
+      }
+
+      function toggleTodo(e) {
+        const checkbox = e.target;
+        const li = checkbox.parentNode;
+        li.classList.toggle('completed');
+      }
+
+      function deleteTodo(e) {
+        const btn = e.target;
+        const li = btn.parentNode;
+        todoList.remove(li);
+      }
+ 
+      function editeTodo(e) {
+  const edt = e.target;
+  const li = edt.parentNode;
+  const span = li.querySelector('span');
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = span.textContent;
+  input.classList.add('edit-input');
+
+  li.replaceChild(input, span);
+  input.focus();
+
+  input.addEventListener('blur', function() {
+    const updatedSpan = document.createElement('span');
+    updatedSpan.textContent = input.value;
+    li.replaceChild(updatedSpan, input);
+  });
+}
+
+
+
+
+    </script>
+</body>
+</html>
